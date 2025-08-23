@@ -565,9 +565,9 @@
             }
         }
         .app-logo {
-    height: 40px; /* Adjust as needed */
-    margin-right: 10px;
-}
+            height: 40px; /* Adjust as needed */
+            margin-right: 10px;
+        }
 
     </style>
 </head>
@@ -581,7 +581,6 @@
             <i class="fas fa-moon"></i>
         </button>
     </header>
-
 
     <div class="container">
         <!-- Search Bar -->
@@ -891,15 +890,28 @@
 
         // Apply current filter to notes
         function applyFilter() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            // First filter by search term if there is one
+            if (searchTerm) {
+                filteredNotes = notes.filter(note => 
+                    note.title.toLowerCase().includes(searchTerm)
+                );
+            } else {
+                filteredNotes = [...notes];
+            }
+            
+            // Then apply the current filter
             switch (currentFilter) {
                 case 'pinned':
-                    filteredNotes = notes.filter(note => note.pinned);
+                    filteredNotes = filteredNotes.filter(note => note.pinned);
                     break;
                 case 'favorites':
-                    filteredNotes = notes.filter(note => note.favorite);
+                    filteredNotes = filteredNotes.filter(note => note.favorite);
                     break;
                 default:
-                    filteredNotes = [...notes];
+                    // 'all' filter - no additional filtering needed
+                    break;
             }
 
             // Update active filter button
@@ -911,6 +923,11 @@
         // Change current filter
         function changeFilter(filter) {
             currentFilter = filter;
+            renderNotes();
+        }
+
+        // Filter notes based on search input
+        function filterNotes() {
             renderNotes();
         }
 
@@ -1028,36 +1045,6 @@
             wordCount.textContent = content.trim() ? content.trim().split(/\s+/).length : 0;
         }
 
-        // Filter notes based on search input
-function filterNotes() {
-    const searchTerm = searchInput.value.toLowerCase();
-    
-    // Always start with all notes
-    let results = [...notes];
-    
-    // Apply current filter first
-    switch (currentFilter) {
-        case 'pinned':
-            results = results.filter(note => note.pinned);
-            break;
-        case 'favorites':
-            results = results.filter(note => note.favorite);
-            break;
-        default:
-            // 'all' filter - no additional filtering needed
-            break;
-    }
-    
-    // Then apply search filter if there's a search term
-    if (searchTerm) {
-        results = results.filter(note =>
-            note.title.toLowerCase().includes(searchTerm)
-        );
-    }
-    
-    filteredNotes = results;
-    renderNotes();
-}
         // Sort notes based on selected option
         function sortNotes() {
             const sortBy = sortOption.value;
