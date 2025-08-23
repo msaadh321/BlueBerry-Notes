@@ -21,6 +21,7 @@
             --warning-color: #fbbc05;
             --font-size: 16px;
             --favorite-color: #ffc107;
+            --font-size-scale: 1;
         }
 
         /* Dark Theme */
@@ -47,7 +48,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
-            font-size: var(--font-size);
+            font-size: calc(var(--font-size) * var(--font-size-scale));
             min-height: 100vh;
             padding-bottom: 70px;
             /* Space for bottom tabs */
@@ -183,6 +184,23 @@
             margin-bottom: 2rem;
         }
 
+        .notes-list .note-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .notes-list .note-title {
+            font-size: 1.3rem;
+        }
+
+        .notes-list .note-meta {
+            margin-top: 0.5rem;
+        }
+
+        .notes-list .note-actions {
+            margin-top: 0.5rem;
+        }
+
         /* Note Card */
         .note-card {
             background-color: var(--card-bg);
@@ -241,6 +259,9 @@
             margin-bottom: 1rem;
             word-break: break-word;
             line-height: 1.5;
+            max-height: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .note-meta {
@@ -603,7 +624,7 @@
     <!-- App Header -->
     <header class="app-header">
         <div class="header-left">
-            <img src="Cherry (4).png" alt="BlueBerry Notes Logo" class="app-logo">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNNDQ4IDgwYTQ4IDQ4IDAgMSAwLTQ4IDQ4YTQ4IDQ4IDAgMCAwIDQ4LTQ4ek0yMzcuNjUgMTQ2Ljg4YTQ4IDQ4IDAgMSAwIDQ4IDQ4YTQ4IDQ4IDAgMCAwLTQ4LTQ4ek0zMiAyNTZhNDggNDggMCAxIDAgNDggNDhhNDggNDggMCAwIDAtNDgtNDh6TTE0NCA0NDhhNDggNDggMCAxIDAgNDggNDhhNDggNDggMCAwIDAtNDgtNDh6TTI1NiAzMjBhNDggNDggMCAxIDAgNDggNDhhNDggNDggMCAwIDAtNDgtNDh6TTM2OCA0NDhhNDggNDggMCAxIDAgNDggNDhhNDggNDggMCAwIDAtNDgtNDh6TTQ4MCAyNTZhNDggNDggMCAxIDAgNDggNDhhNDggNDggMCAwIDAtNDgtNDh6Ii8+PC9zdmc+" alt="BlueBerry Notes Logo" class="app-logo">
             <h1 class="app-title">BlueBerry Notes</h1>
         </div>
         <button id="theme-toggle" class="note-btn">
@@ -640,7 +661,7 @@
             <div class="settings-group">
                 <h3 class="settings-title">Theme Options</h3>
                 <div class="theme-options">
-                    <div class="theme-option active" style="background-color: #dbd812;" data-color="#dbd812"></div>
+                    <div class="theme-option active" style="background-color: #c9c63b;" data-color="#c9c63b"></div>
                     <div class="theme-option" style="background-color: #ea4335;" data-color="#ea4335"></div>
                     <div class="theme-option" style="background-color: #fbbc05;" data-color="#fbbc05"></div>
                     <div class="theme-option" style="background-color: #34a853;" data-color="#34a853"></div>
@@ -677,28 +698,6 @@
         <!-- Notes Container -->
         <div id="notes-container" class="notes-grid">
             <!-- Notes will be dynamically inserted here -->
-            <div class="note-card">
-                <h3 class="note-title">Welcome to BlueBerry Notes!</h3>
-                <p class="note-content">This is your first note. You can edit, delete, pin, or favorite it. Click the + button to create more notes!</p>
-                <div class="note-meta">
-                    <span>Created: Just now</span>
-                    <span>82 chars</span>
-                </div>
-                <div class="note-actions">
-                    <button class="note-btn btn-pin">
-                        <i class="fas fa-thumbtack"></i> Pin
-                    </button>
-                    <button class="note-btn btn-favorite">
-                        <i class="fas fa-star"></i> Favorite
-                    </button>
-                    <button class="note-btn">
-                        <i class="fas fa-edit"></i> Edit
-                    </button>
-                    <button class="note-btn btn-delete">
-                        <i class="fas fa-trash"></i> Delete
-                    </button>
-                </div>
-            </div>
         </div>
 
         <!-- Add Note Button -->
@@ -886,6 +885,9 @@
                     // Save font size
                     localStorage.setItem('font-size', fontSize);
                     localStorage.setItem('font-scale', scaleFactor);
+                    
+                    // Update font size for the whole app
+                    document.body.style.fontSize = `${fontSize}px`;
                 });
             });
 
@@ -897,6 +899,13 @@
             importBtn.addEventListener('click', () => importFile.click());
             importFile.addEventListener('change', importNotes);
             resetBtn.addEventListener('click', resetApp);
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', (e) => {
+                if (e.target === noteModal) {
+                    closeNoteModal();
+                }
+            });
         }
 
         // Render notes to the UI
@@ -977,6 +986,9 @@
             filterAll.classList.toggle('active', currentFilter === 'all');
             filterPinned.classList.toggle('active', currentFilter === 'pinned');
             filterFavorites.classList.toggle('active', currentFilter === 'favorites');
+            
+            // Sort notes after filtering
+            sortNotes();
         }
 
         // Change current filter
@@ -1110,19 +1122,19 @@
 
             switch (sortBy) {
                 case 'newest':
-                    notes.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    filteredNotes.sort((a, b) => new Date(b.date) - new Date(a.date));
                     break;
                 case 'oldest':
-                    notes.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    filteredNotes.sort((a, b) => new Date(a.date) - new Date(b.date));
                     break;
                 case 'alphabetical':
-                    notes.sort((a, b) => a.title.localeCompare(b.title));
+                    filteredNotes.sort((a, b) => a.title.localeCompare(b.title));
                     break;
             }
 
             // Save sort preference
             localStorage.setItem('sort-option', sortBy);
-            saveNotes();
+            renderNotes();
         }
 
         // Change view between grid and list
@@ -1151,7 +1163,7 @@
                 notesContainer.style.display = 'none';
             } else {
                 settingsPanel.style.display = 'none';
-                notesContainer.style.display = currentView === 'grid' => 'grid' : 'flex';
+                notesContainer.style.display = currentView === 'grid' ? 'grid' : 'flex';
 
                 // Apply filter based on tab
                 if (tab === 'pinned') {
@@ -1285,6 +1297,9 @@
                 fontOptions.forEach(option => {
                     option.classList.toggle('active', option.dataset.size === fontSize);
                 });
+                
+                // Update font size for the whole app
+                document.body.style.fontSize = `${fontSize}px`;
             }
 
             // Load view mode
@@ -1297,8 +1312,10 @@
             const sortOptionValue = localStorage.getItem('sort-option');
             if (sortOptionValue) {
                 sortOption.value = sortOptionValue;
-                sortNotes();
             }
+            
+            // Apply sorting
+            sortNotes();
         }
 
         // Format date for display
