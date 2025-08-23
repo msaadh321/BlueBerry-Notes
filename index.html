@@ -1029,26 +1029,35 @@
         }
 
         // Filter notes based on search input
-        function filterNotes() {
-            const searchTerm = searchInput.value.toLowerCase();
-            if (!searchTerm) {
-                applyFilter();
-            } else {
-                filteredNotes = notes.filter(note =>
-                    note.title.toLowerCase().includes(searchTerm) ||
-                    note.content.toLowerCase().includes(searchTerm)
-                );
-
-                // Apply current filter to search results
-                if (currentFilter === 'pinned') {
-                    filteredNotes = filteredNotes.filter(note => note.pinned);
-                } else if (currentFilter === 'favorites') {
-                    filteredNotes = filteredNotes.filter(note => note.favorite);
-                }
-            }
-            renderNotes();
-        }
-
+function filterNotes() {
+    const searchTerm = searchInput.value.toLowerCase();
+    
+    // Always start with all notes
+    let results = [...notes];
+    
+    // Apply current filter first
+    switch (currentFilter) {
+        case 'pinned':
+            results = results.filter(note => note.pinned);
+            break;
+        case 'favorites':
+            results = results.filter(note => note.favorite);
+            break;
+        default:
+            // 'all' filter - no additional filtering needed
+            break;
+    }
+    
+    // Then apply search filter if there's a search term
+    if (searchTerm) {
+        results = results.filter(note =>
+            note.title.toLowerCase().includes(searchTerm)
+        );
+    }
+    
+    filteredNotes = results;
+    renderNotes();
+}
         // Sort notes based on selected option
         function sortNotes() {
             const sortBy = sortOption.value;
