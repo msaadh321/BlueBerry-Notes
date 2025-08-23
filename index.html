@@ -58,7 +58,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem;
+            padding: 0.8rem 1rem;
             background-color: var(--primary-color);
             color: white;
             box-shadow: 0 2px 10px var(--shadow-color);
@@ -67,10 +67,24 @@
             z-index: 100;
         }
 
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .app-logo {
+            height: 36px;
+            width: 36px;
+            object-fit: contain;
+        }
+
         .app-title {
-            font-size: calc(1.5rem * var(--font-size-scale, 1));
+            font-size: 1.5rem;
             font-weight: 700;
             color: white;
+            margin: 0;
+            white-space: nowrap;
         }
 
         /* Main Content */
@@ -93,7 +107,7 @@
             border-radius: 50px;
             background-color: var(--secondary-color);
             color: var(--text-color);
-            font-size: calc(1rem * var(--font-size-scale, 1));
+            font-size: 1rem;
             box-shadow: 0 2px 5px var(--shadow-color);
         }
 
@@ -103,7 +117,6 @@
             top: 50%;
             transform: translateY(-50%);
             color: #777;
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         /* Notes View Toggle */
@@ -127,7 +140,6 @@
             cursor: pointer;
             color: var(--text-color);
             box-shadow: 0 2px 5px var(--shadow-color);
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .view-btn.active {
@@ -148,7 +160,6 @@
             cursor: pointer;
             color: var(--text-color);
             box-shadow: 0 2px 5px var(--shadow-color);
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .filter-btn.active {
@@ -201,7 +212,6 @@
             top: 10px;
             right: 10px;
             color: var(--primary-color);
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .note-card.favorite {
@@ -216,11 +226,10 @@
             top: 10px;
             right: 10px;
             color: var(--favorite-color);
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .note-title {
-            font-size: calc(1.2rem * var(--font-size-scale, 1));
+            font-size: 1.2rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
             color: var(--text-color);
@@ -232,14 +241,13 @@
             margin-bottom: 1rem;
             word-break: break-word;
             line-height: 1.5;
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .note-meta {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: calc(0.85rem * var(--font-size-scale, 1));
+            font-size: 0.85rem;
             color: #777;
             margin-top: 1rem;
         }
@@ -255,7 +263,7 @@
             border: none;
             cursor: pointer;
             color: #777;
-            font-size: calc(0.9rem * var(--font-size-scale, 1));
+            font-size: 0.9rem;
             padding: 0.3rem 0.5rem;
             border-radius: 5px;
             transition: background-color 0.2s;
@@ -288,7 +296,7 @@
             background-color: var(--primary-color);
             color: white;
             border: none;
-            font-size: calc(1.5rem * var(--font-size-scale, 1));
+            font-size: 1.5rem;
             cursor: pointer;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
             display: flex;
@@ -334,7 +342,7 @@
             right: 1rem;
             background: none;
             border: none;
-            font-size: calc(1.5rem * var(--font-size-scale, 1));
+            font-size: 1.5rem;
             cursor: pointer;
             color: #777;
         }
@@ -342,7 +350,6 @@
         .modal-title {
             margin-bottom: 1.5rem;
             color: var(--primary-color);
-            font-size: calc(1.5rem * var(--font-size-scale, 1));
         }
 
         .form-group {
@@ -353,7 +360,6 @@
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .form-input,
@@ -365,7 +371,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             font-family: inherit;
-            font-size: calc(1rem * var(--font-size-scale, 1));
+            font-size: 1rem;
         }
 
         .form-textarea {
@@ -375,7 +381,7 @@
 
         .counter {
             text-align: right;
-            font-size: calc(0.8rem * var(--font-size-scale, 1));
+            font-size: 0.8rem;
             color: #777;
             margin-top: 0.3rem;
         }
@@ -394,7 +400,6 @@
             cursor: pointer;
             font-weight: 500;
             transition: background-color 0.2s;
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .btn-primary {
@@ -426,7 +431,6 @@
             cursor: pointer;
             color: #777;
             transition: background-color 0.2s;
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .tab.active {
@@ -435,13 +439,13 @@
         }
 
         .tab i {
-            font-size: calc(1.2rem * var(--font-size-scale, 1));
+            font-size: 1.2rem;
             margin-bottom: 0.3rem;
         }
 
         .tab span {
             display: block;
-            font-size: calc(0.8rem * var(--font-size-scale, 1));
+            font-size: 0.8rem;
         }
 
         /* Toast Notification */
@@ -458,7 +462,6 @@
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s;
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .toast.show {
@@ -480,7 +483,7 @@
         }
 
         .settings-title {
-            font-size: calc(1.2rem * var(--font-size-scale, 1));
+            font-size: 1.2rem;
             margin-bottom: 1rem;
             color: var(--primary-color);
             border-bottom: 1px solid #ddd;
@@ -511,7 +514,6 @@
             border-radius: 5px;
             cursor: pointer;
             background-color: var(--secondary-color);
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         .font-option.active {
@@ -525,7 +527,6 @@
             padding: 2rem;
             color: #777;
             grid-column: 1 / -1;
-            font-size: calc(1rem * var(--font-size-scale, 1));
         }
 
         /* Animations */
@@ -559,7 +560,16 @@
 
             .tab i {
                 margin-bottom: 0;
-                font-size: calc(1.4rem * var(--font-size-scale, 1));
+                font-size: 1.4rem;
+            }
+            
+            .app-title {
+                font-size: 1.3rem;
+            }
+            
+            .app-logo {
+                height: 32px;
+                width: 32px;
             }
         }
 
@@ -574,22 +584,28 @@
             }
 
             .app-title {
-                font-size: calc(1.2rem * var(--font-size-scale, 1));
+                font-size: 1.2rem;
+            }
+            
+            .app-logo {
+                height: 28px;
+                width: 28px;
+            }
+            
+            .header-left {
+                gap: 8px;
             }
         }
-        .app-logo {
-            height: 40px; /* Adjust as needed */
-            margin-right: 10px;
-        }
-
     </style>
 </head>
 
 <body>
     <!-- App Header -->
     <header class="app-header">
-        <img src="Cherry (4).png" alt="Logo" class="app-logo">
-        <h1 class="app-title">BlueBerry Notes</h1>
+        <div class="header-left">
+            <img src="https://placehold.co/36x36/ffffff/ffffff.png" alt="BlueBerry Notes Logo" class="app-logo">
+            <h1 class="app-title">BlueBerry Notes</h1>
+        </div>
         <button id="theme-toggle" class="note-btn">
             <i class="fas fa-moon"></i>
         </button>
@@ -661,6 +677,28 @@
         <!-- Notes Container -->
         <div id="notes-container" class="notes-grid">
             <!-- Notes will be dynamically inserted here -->
+            <div class="note-card">
+                <h3 class="note-title">Welcome to BlueBerry Notes!</h3>
+                <p class="note-content">This is your first note. You can edit, delete, pin, or favorite it. Click the + button to create more notes!</p>
+                <div class="note-meta">
+                    <span>Created: Just now</span>
+                    <span>82 chars</span>
+                </div>
+                <div class="note-actions">
+                    <button class="note-btn btn-pin">
+                        <i class="fas fa-thumbtack"></i> Pin
+                    </button>
+                    <button class="note-btn btn-favorite">
+                        <i class="fas fa-star"></i> Favorite
+                    </button>
+                    <button class="note-btn">
+                        <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="note-btn btn-delete">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Add Note Button -->
@@ -830,7 +868,7 @@
                 });
             });
 
-            // Font options - Fixed to change all font sizes
+            // Font options
             fontOptions.forEach(option => {
                 option.addEventListener('click', () => {
                     const fontSize = option.dataset.size;
@@ -1113,7 +1151,7 @@
                 notesContainer.style.display = 'none';
             } else {
                 settingsPanel.style.display = 'none';
-                notesContainer.style.display = currentView === 'grid' ? 'grid' : 'flex';
+                notesContainer.style.display = currentView === 'grid' => 'grid' : 'flex';
 
                 // Apply filter based on tab
                 if (tab === 'pinned') {
